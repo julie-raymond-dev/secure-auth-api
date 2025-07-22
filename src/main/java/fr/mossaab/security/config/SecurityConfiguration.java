@@ -34,6 +34,7 @@ public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
     private final Http401UnauthorizedEntryPoint unauthorizedEntryPoint;
     private final CustomAccessDeniedHandler accessDeniedHandler;
+    private final RateLimitingFilter rateLimitingFilter;
 
     private static final Long MAX_AGE = 3600L;
     private static final int CORS_FILTER_ORDER = -102;
@@ -63,13 +64,19 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.POST,"/api/v1/resource").hasRole("ADMIN")
                                 .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
-                .authenticationProvider(authenticationProvider).addFilterBefore(
+                .authenticationProvider(authenticationProvider)
+                .headers(headers -> headers
+                        .contentSecurityPolicy(csp -> csp.policyDirectives("default-src 'self'"))
+                        .frameOptions(frame -> frame.sameOrigin())
+                        .httpStrictTransportSecurity(hsts -> hsts.includeSubDomains(true).maxAgeInSeconds(31536000)))
+                .addFilterBefore(rateLimitingFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(
                         jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
     @Bean
-    public FilterRegistrationBean corsFilter() {
+    public FilterRegistrationBean<CorsFilter> corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
@@ -85,7 +92,7 @@ public class SecurityConfiguration {
                 HttpMethod.DELETE.name()));
         config.setMaxAge(MAX_AGE);
         source.registerCorsConfiguration("/**", config);
-        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+        FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
 
         // should be set order to -100 because we need to CorsFilter before SpringSecurityFilter
         bean.setOrder(CORS_FILTER_ORDER);

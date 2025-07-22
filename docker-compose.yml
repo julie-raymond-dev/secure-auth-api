@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: secure_auth_db
+    environment:
+      POSTGRES_DB: db_security
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - backend
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    container_name: secure_auth_api
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/db_security
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8180:8080"
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  db_data:
