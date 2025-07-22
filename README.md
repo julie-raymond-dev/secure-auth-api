@@ -1,6 +1,7 @@
 # 🔐 Secure Auth API
 
 [![CI](https://github.com/julie-raymond-dev/secure-auth-api/actions/workflows/ci.yml/badge.svg)](https://github.com/julie-raymond-dev/secure-auth-api/actions/workflows/ci.yml)
+[![Deploy to Render](https://img.shields.io/badge/Render-Deploy-blue)](https://render.com/deploy?repo=https://github.com/julie-raymond-dev/secure-auth-api)
 [![Codecov](https://codecov.io/gh/julie-raymond-dev/secure-auth-api/branch/main/graph/badge.svg)](https://codecov.io/gh/julie-raymond-dev/secure-auth-api)
 [![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](target/site/jacoco/index.html)
 
@@ -47,6 +48,22 @@ curl -X POST http://localhost:8180/api/auth/authenticate \
 
 # Access a protected admin endpoint
 curl -H "Authorization: Bearer <ACCESS_TOKEN>" http://localhost:8180/api/admin/resource
+```
+
+## 📈 Observability
+
+The application exposes Spring Boot Actuator endpoints (health, metrics) and a Prometheus scrape endpoint.
+
+- Health: `GET /actuator/health`
+- Metrics: `GET /actuator/metrics`
+- Prometheus format: `GET /actuator/prometheus`
+
+Prometheus scrape sample:
+```yaml
+- job_name: secure-auth-api
+  metrics_path: /actuator/prometheus
+  static_configs:
+    - targets: ['secure-auth-api:8180']
 ```
 
 ## 🚀 Getting Started

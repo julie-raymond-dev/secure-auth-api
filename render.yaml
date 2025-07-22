@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: secure-auth-api
+    env: docker
+    plan: free
+    autoDeploy: true
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: JWT_SECRET
+        generateValue: true
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:postgresql://secure-auth-api-db:5432/secure_auth
+      - key: SPRING_DATASOURCE_USERNAME
+        value: postgres
+      - key: SPRING_DATASOURCE_PASSWORD
+        generateValue: true
+
+  - type: postgres
+    name: secure-auth-api-db
+    plan: free
+    ipAllowList: []
