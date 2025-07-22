@@ -44,8 +44,11 @@ jobs:
           image: owasp/dependency-check:latest
           options: >-
             -v ${{ github.workspace }}:/src
-          run: >-
-            --project "secure-auth-api" --format HTML --out /src/dependency-check-report --scan /src
+          run: |
+            --project "secure-auth-api" \
+            --format HTML \
+            --out /src/dependency-check-report \
+            --scan /src
 
       - name: Upload dependency-check report
         uses: actions/upload-artifact@v4
