@@ -1,5 +1,8 @@
 # 🔐 Secure Auth API
 
+[![CI](https://github.com/julie-raymond-dev/secure-auth-api/actions/workflows/ci.yml/badge.svg)](https://github.com/julie-raymond-dev/secure-auth-api/actions/workflows/ci.yml)
+[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](target/site/jacoco/index.html)
+
 A secure authentication API built with **Java**, **Spring Boot**, and **JWT**, following **OWASP** best practices.  
 It includes user registration, login, password hashing, role-based access control, and token refresh.
 
@@ -20,6 +23,11 @@ It includes user registration, login, password hashing, role-based access contro
 - Token refresh endpoint
 - RESTful error handling
 - CORS & security headers
+
+## 📑 API Documentation
+
+* Swagger UI (running app): `http://localhost:8180/swagger-ui.html`
+* OpenAPI spec: [`docs/openapi.yaml`](docs/openapi.yaml)
 
 ## 🚀 Getting Started
 ```bash

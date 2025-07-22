@@ -1,0 +1,14 @@
+# OpenAPI specification will be generated automatically at runtime via Springdoc.
+# To regenerate:
+# 1. Run the application with profile `test` (in-memory H2).
+#    mvn spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=test"
+# 2. From another terminal, execute:
+#    curl http://localhost:8180/v3/api-docs.yaml -o docs/openapi.yaml
+# 3. Commit the updated file.
+
+openapi: 3.1.0
+info:
+  title: Secure Auth API
+  description: Placeholder specification. Run the steps above to update with real endpoints.
+  version: 1.0.0
+paths: {}
