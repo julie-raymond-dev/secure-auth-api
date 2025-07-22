@@ -1,7 +1,6 @@
 package fr.mossaab.security.payload.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.mossaab.security.enums.TokenType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
