@@ -33,19 +33,19 @@ jobs:
           fail_ci_if_error: true
 
       - name: Archive JaCoCo report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
           path: target/site/jacoco/index.html
 
       - name: OWASP Dependency Check
-        uses: dependency-check/Dependency-Check_Action@v3
+        uses: dependency-check/Dependency-Check_Action@v4
         with:
           output_directory: dependency-check-report
           format: 'HTML'
 
       - name: Upload dependency-check report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dependency-check-report
           path: dependency-check-report
