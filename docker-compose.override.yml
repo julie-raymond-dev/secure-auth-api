@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  app:
+    image: julie-raymond-dev/secure-auth-api:latest
+    restart: unless-stopped
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/secure_auth
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - JWT_SECRET=myProdJwtSecretChangeMe
+    ports:
+      - "8180:8180"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=secure_auth
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
