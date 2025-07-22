@@ -39,7 +39,7 @@ jobs:
           path: target/site/jacoco/index.html
 
       - name: OWASP Dependency Check
-        uses: dependency-check/Dependency-Check_Action@v7
+        uses: dependency-check/Dependency-Check_Action@v3.0.2
         with:
           output_directory: dependency-check-report
           format: 'HTML'
